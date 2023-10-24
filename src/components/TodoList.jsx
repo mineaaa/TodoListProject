@@ -1,6 +1,10 @@
-import { useState } from "react";
-import TodoTable from "./components/TodoTable";
-import TodoListGrid from "./components/TodoListGrid";
+import * as React from 'react';
+import { useState } from 'react';
+import TodoListGrid from "./TodoListGrid";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 
 
 export default function TodoList() {
@@ -22,12 +26,25 @@ export default function TodoList() {
         setTodos(changedTodo);
     }
 
+    const handleDateChange = (newDate) => {
+        setDesc({ ...desc, date: newDate });
+    }
+
     return (
         <>
             <h1>💗🌷 Todo List 🌷💗</h1>
             <input type="text" name="description" onChange={inputChanged} value={desc.description} />
-            <input type="date" name="date" onChange={inputChanged} value={desc.date} />
+
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                    name="date"
+                    value={desc.date}
+                    onChange={handleDateChange}
+                />
+
+            </LocalizationProvider>
             <input type="text" name="priority" onChange={inputChanged} value={desc.priority} />
+
 
             <button onClick={addTodo}>Lisää</button>
 
@@ -38,6 +55,6 @@ export default function TodoList() {
 
 }
 
-//<TodoTable todos={todos} onDelete={deleteTodo} />
+
 
 
